@@ -9,17 +9,15 @@
   <a-flex wrap="wrap" gap="large" style="margin-top: 20px; margin-left: 70px">
     <music-card :music-list="musicList"/>
   </a-flex>
-  <audio preload autoplay="" controls src="./src/muscis/除了春天爱情和樱花.mp3">
+  <audio controls>
+    <source src="../../musics/Angel.mp3" />
   </audio>
-  <audio-player :src="audioSrc" controls></audio-player>
 </template>
 
 <script setup lang="js">
 import MusicCard from "../components/MusicCard.vue";
-import AudioPlayer from 'vue-audio';
 import {ref} from "vue";
 
-const audioSrc = ref('./src/muscis/Angel (0_8X版).mp3');
 
 const searchText = ref('');
 
