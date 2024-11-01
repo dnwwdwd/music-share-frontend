@@ -2,7 +2,7 @@
   <div style="height: 60px">
   </div>
   <div style="display: flex; align-items: center; margin-bottom: 30px;;justify-content: center">
-    <span style="margin-left: 10px; font-size: 30px">江苏牧职宠物管理系统</span>
+    <span style="margin-left: 10px; font-size: 30px">基于Vue+Django的音乐分享网站</span>
   </div>
 
   <div style="display: flex; justify-content: center;">
@@ -58,6 +58,7 @@ import {LockOutlined, UserOutlined} from '@ant-design/icons-vue';
 import {message} from "ant-design-vue";
 import {useRouter} from "vue-router";
 import myAxios from "../plugins/myAxios.js";
+import {getCookie} from "../utils/utils.js";
 
 const router = useRouter();
 interface FormState {
@@ -79,21 +80,36 @@ function loginFailed() {
 }
 
 const onFinish = async (values: any) => {
-  console.log(values)
-  const res : any = await myAxios.post('/user/login', {
-    username: values.username,
-    password: values.password,
-  });
-  if (res.code === 0) {
-    message.success('登录成功！');
-    router.push({
-      path: '/'
+  console.log(values);
+
+  const csrfToken = getCookie('csrftoken'); // 获取 CSRF token
+
+  // 发起登录请求，添加 CSRF token 到请求头
+  try {
+    const res: any = await myAxios.post('/user/login', {
+      username: values.username,
+      password: values.password,
+    }, {
+      headers: {
+        'X-CSRFToken': csrfToken, // 添加 CSRF token
+      },
     });
-  } else {
-    message.error('登录失败' + `${res.message ? `, ${res.message}` : ''}`);
-    loginFailed();
+
+    if (res.code === 0) {
+      message.success('登录成功！');
+      router.push({
+        path: '/'
+      });
+    } else {
+      message.error('登录失败' + `${res.message ? `, ${res.message}` : ''}`);
+      loginFailed();
+    }
+  } catch (error) {
+    console.error('请求出错:', error);
+    message.error('请求失败，请稍后重试');
   }
 };
+
 
 const onFinishFailed = (errorInfo: any) => {
   console.log('Failed:', errorInfo);

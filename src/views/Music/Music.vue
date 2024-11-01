@@ -13,85 +13,20 @@
 
 <script setup lang="js">
 import MusicCard from "../components/MusicCard.vue";
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
+import myAxios from "../../plugins/myAxios.js";
 
 
 const searchText = ref('');
 
-const musicList = [
-  {
-    id: 1,
-    imgUrl: 'https://y.qq.com/music/photo_new/T002R300x300M000002PjDkE14OUkV_1.jpg?max_age=2592000',
-    name: '普通朋友',
-    singer: {
-      name: '陶喆'
-    },
-    duration: '3:59'
-  },
-  {
-    id: 2,
-    imgUrl: 'https://y.qq.com/music/photo_new/T002R300x300M000002PjDkE14OUkV_1.jpg?max_age=2592000',
-    name: '普通朋友',
-    singer: {
-      name: '陶喆'
-    },
-    duration: '3:59'
-  },
-  {
-    id: 3,
-    imgUrl: 'https://y.qq.com/music/photo_new/T002R300x300M000002PjDkE14OUkV_1.jpg?max_age=2592000',
-    name: '普通朋友',
-    singer: {
-      name: '陶喆'
-    },
-    duration: '3:59'
-  },
-  {
-    id: 4,
-    imgUrl: 'https://y.qq.com/music/photo_new/T002R300x300M000002PjDkE14OUkV_1.jpg?max_age=2592000',
-    name: '普通朋友',
-    singer: {
-      name: '陶喆'
-    },
-    duration: '3:59'
-  },
-  {
-    id: 5,
-    imgUrl: 'https://y.qq.com/music/photo_new/T002R300x300M000002PjDkE14OUkV_1.jpg?max_age=2592000',
-    name: '普通朋友',
-    singer: {
-      name: '陶喆'
-    },
-    duration: '3:59'
-  },
-  {
-    id: 6,
-    imgUrl: 'https://y.qq.com/music/photo_new/T002R300x300M000002PjDkE14OUkV_1.jpg?max_age=2592000',
-    name: '普通朋友',
-    singer: {
-      name: '陶喆'
-    },
-    duration: '3:59'
-  },
-  {
-    id: 7,
-    imgUrl: 'https://y.qq.com/music/photo_new/T002R300x300M000002PjDkE14OUkV_1.jpg?max_age=2592000',
-    name: '普通朋友',
-    singer: {
-      name: '陶喆'
-    },
-    duration: '3:59'
-  },
-  {
-    id: 8,
-    imgUrl: 'https://y.qq.com/music/photo_new/T002R300x300M000002PjDkE14OUkV_1.jpg?max_age=2592000',
-    name: '普通朋友',
-    singer: {
-      name: '陶喆'
-    },
-    duration: '3:59'
+const musicList = ref([]);
+
+onMounted(async () => {
+  const res = await myAxios.get('/music');
+  if (res.code === 0) {
+    musicList.value = res.data;
   }
-];
+});
 
 const onSearch = async () => {
 

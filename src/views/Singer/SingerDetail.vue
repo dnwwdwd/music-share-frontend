@@ -16,7 +16,7 @@
           >
             {{ isPlaying ? '暂停' : '开始播放' }}
           </a-button>
-          <div v-if="music.url" style="display: flex; align-items: center; margin-top: 3px">
+          <div v-if="music.url" style="display: flex; align-items: center; margin-top: 6px">
             <span style="color: #A7A7A8; font-size: 20px">{{ music.name }}：</span>
             <audio controls ref="audioPlayer" @ended="playNext">
               <source :src="music.url"/>
@@ -31,7 +31,7 @@
           class="demo-loadmore-list"
           :loading="false"
           item-layout="horizontal"
-          :data-source="singerVO.musicVOList"
+          :data-source="singerVO.music_list"
       >
         <template #renderItem="{ item }">
           <a-list-item>
@@ -56,39 +56,30 @@
 </template>
 
 <script setup lang="js">
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import {PlayCircleOutlined} from '@ant-design/icons-vue';
 import {message} from "ant-design-vue";
+import myAxios from "../../plugins/myAxios.js";
+import {useRoute} from "vue-router";
 
-const show = ref(true);
 const audioPlayer = ref(null);
 const isPlaying = ref(false); // 播放状态
-const singerVO = ref({
-  id: 1,
-  imgUrl: 'https://y.qq.com/music/photo_new/T002R300x300M000002PjDkE14OUkV_1.jpg?max_age=2592000',
-  name: '陶喆',
-  songCount: 18,
-  description: '这是一个描述，wjdkwjdddjdjwnurhuwjdancuhcxzcvne',
-  musicVOList: [
-    {
-      duration: '3:40',
-      name: '普通朋友',
-      url: 'http://ws.stream.qqmusic.qq.com/C400002qN5rI1ng5AY.m4a?guid=201554826&vkey=DB974974372A3038E3AFB3AF6A48ED9098096A9F34CD6CEA577BE954F39FA5D0CF67FFF9C710008796D1AE79A51DA157A726317759BF7AB5&uin=&fromtag=120032&src=C400001CQcSQ4IRWm0.m4a'
-    },
-    {
-      duration: '4:05',
-      name: '爱我还是他',
-      url: 'http://ws.stream.qqmusic.qq.com/C400002qN5rI1ng5AY.m4a?guid=201554826&vkey=DB974974372A3038E3AFB3AF6A48ED9098096A9F34CD6CEA577BE954F39FA5D0CF67FFF9C710008796D1AE79A51DA157A726317759BF7AB5&uin=&fromtag=120032&src=C400001CQcSQ4IRWm0.m4a'
-    },
-    {
-      duration: '3:20',
-      name: '找自己',
-      url: 'http://ws.stream.qqmusic.qq.com/C400003JzO0f40IYmB.m4a?guid=177017382&vkey=948D10376C1323624476F6D8295D606F24AE8FDDC73303F45945F7BFA9BFC5C8A68BFC64CC0A6238E7981B735AB1569A4EF14CEA321F18D7&uin=&fromtag=120032'
-    },
-  ],
-});
+const singerVO = ref({});
 
-const music = ref(singerVO.value.musicVOList[0]);
+const route = useRoute();
+
+const id = route.params.id;
+
+const music = ref({});
+
+onMounted(async () => {
+  const res = await myAxios.get(`/singer/${id}`);
+  if (res.code === 0 && res.data) {
+    singerVO.value = res.data;
+    music.value = singerVO.value.music_list[0];
+  }
+
+});
 
 const togglePlay = () => {
   if (isPlaying.value) {
@@ -117,9 +108,9 @@ const play = (value) => {
 
 const playNext = () => {
   // 处理播放结束后的逻辑
-  const currentIndex = singerVO.value.musicVOList.indexOf(music.value);
-  if (currentIndex < singerVO.value.musicVOList.length - 1) {
-    music.value = singerVO.value.musicVOList[currentIndex + 1];
+  const currentIndex = singerVO.value.music_list.indexOf(music.value);
+  if (currentIndex < singerVO.value.music_list.length - 1) {
+    music.value = singerVO.value.music_list[currentIndex + 1];
     audioPlayer.value.load();
     audioPlayer.value.play();
   } else {
@@ -136,7 +127,7 @@ const playNext = () => {
 }
 
 .singer-info {
-  width: 1200px;
+  width: 900px;
 
   border: 2px solid #31C27C; /* 设置边框颜色 */
   border-radius: 10px; /* 设置圆角 */
@@ -146,9 +137,11 @@ const playNext = () => {
 }
 
 .list-container {
+  width: 900px;
   border: 1px solid #ccc;
   border-radius: 8px;
   padding: 16px;
+  margin-left: 20px;
   background-color: #f9f9f9;
 }
 </style>

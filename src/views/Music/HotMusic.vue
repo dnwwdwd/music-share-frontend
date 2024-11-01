@@ -10,102 +10,24 @@
 
 <script setup lang="js">
 import MusicCard from "../components/MusicCard.vue";
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import MusicRank from "../components/MusicRank.vue";
+import myAxios from "../../plugins/myAxios.js";
 
-const songs = [
-  {
-    singer: {
-      id: 1,
-      name: '陶喆',
-    }, songName: '普通朋友', duration: '3:40', popularity: 8
-  },
-  {
-    singer: {
-      id: 1,
-      name: '陈奕迅',
-    }, songName: '爱情转移', duration: '4:05', popularity: 9
-  },
-  {
-    singer: {
-      id: 1,
-      name: '周杰伦',
-    }, songName: '青花瓷', duration: '4:10', popularity: 7
-  },
-  {
-    singer: {
-      id: 1,
-      name: '陶喆',
-    }, songName: '你是我的', duration: '3:50', popularity: 6
-  },
-];
+const songs = ref([]);
 
-const musicList = ref([
-  {
-    imgUrl: 'https://y.qq.com/music/photo_new/T002R300x300M000002PjDkE14OUkV_1.jpg?max_age=2592000',
-    name: '普通朋友',
-    singer: {
-      name: '陶喆'
-    },
-    duration: '3:59'
-  },
-  {
-    imgUrl: 'https://y.qq.com/music/photo_new/T002R300x300M000002PjDkE14OUkV_1.jpg?max_age=2592000',
-    name: '普通朋友',
-    singer: {
-      name: '陶喆'
-    },
-    duration: '3:59'
-  },
-  {
-    imgUrl: 'https://y.qq.com/music/photo_new/T002R300x300M000002PjDkE14OUkV_1.jpg?max_age=2592000',
-    name: '普通朋友',
-    singer: {
-      name: '陶喆'
-    },
-    duration: '3:59'
-  },
-  {
-    imgUrl: 'https://y.qq.com/music/photo_new/T002R300x300M000002PjDkE14OUkV_1.jpg?max_age=2592000',
-    name: '普通朋友',
-    singer: {
-      name: '陶喆'
-    },
-    duration: '3:59'
-  },
-  {
-    imgUrl: 'https://y.qq.com/music/photo_new/T002R300x300M000002PjDkE14OUkV_1.jpg?max_age=2592000',
-    name: '普通朋友',
-    singer: {
-      name: '陶喆'
-    },
-    duration: '3:59'
-  },
-  {
-    imgUrl: 'https://y.qq.com/music/photo_new/T002R300x300M000002PjDkE14OUkV_1.jpg?max_age=2592000',
-    name: '普通朋友',
-    singer: {
-      name: '陶喆'
-    },
-    duration: '3:59'
-  },
-  {
-    imgUrl: 'https://y.qq.com/music/photo_new/T002R300x300M000002PjDkE14OUkV_1.jpg?max_age=2592000',
-    name: '普通朋友',
-    singer: {
-      name: '陶喆'
-    },
-    duration: '3:59'
-  },
-  {
-    imgUrl: 'https://y.qq.com/music/photo_new/T002R300x300M000002PjDkE14OUkV_1.jpg?max_age=2592000',
-    name: '普通朋友',
-    singer: {
-      name: '陶喆'
-    },
-    duration: '3:59'
+const musicList = ref([]);
+
+onMounted(async () => {
+  const res1 = await myAxios.get('/music');
+  if (res1.code === 0) {
+    musicList.value = res1.data;
   }
-]);
+  const res2 = await myAxios.get('/hot/music');
+  if (res2.code === 0) {
+    songs.value = res2.data;
+  }
+});
 
 </script>
 

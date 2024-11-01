@@ -8,7 +8,7 @@
       <a-menu v-model:selectedKeys="selectedKeys" theme="light" mode="inline">
         <a-menu-item key="1">
           <router-link to="/">
-            <UngroupOutlined />
+            <UngroupOutlined/>
             <span>音乐推荐</span>
           </router-link>
         </a-menu-item>
@@ -80,6 +80,7 @@ import {getCurrentUser} from "../services/user.js";
 import {message} from "ant-design-vue";
 import myAxios from "../plugins/myAxios.js";
 import routes from "../route/index.js";
+import {getCookie} from "../utils/utils.js";
 
 const selectedKeys = ref([]);
 
@@ -133,13 +134,22 @@ onMounted(async () => {
 });
 
 const userLogout = async () => {
-  const res = await myAxios.post('/user/logout');
-  if (res.code === 0) {
-    message.success('退出成功');
+  const csrfToken = getCookie('csrftoken'); // 获取 CSRF token
+  const res = await myAxios.post('/user/logout', {}, {
+    headers: {
+      'X-CSRFToken': csrfToken, // 添加 CSRF token
+    },
+    withCredentials: true, // 确保携带 Cookie
+  });
+
+  if (res.data.code === 0) {
+    message.success('登出成功！');
+    // 清理本地存储的用户信息等
   } else {
-    message.error('退出失败');
+    message.error('登出失败: ' + res.data.message);
   }
 };
+
 
 </script>
 

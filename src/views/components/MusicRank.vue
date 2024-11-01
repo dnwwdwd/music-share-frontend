@@ -2,7 +2,7 @@
   <div style="display: flex; justify-content: center; align-items: center; margin-top: 10px">
     <div class="rankings-container">
       <h2>歌曲排行榜</h2>
-      <div class="rankings">
+      <div class="rankings" v-if="songList.length > 0">
         <div class="ranking-item" v-for="(song, index) in songList" :key="index">
           <div class="rank">{{ index + 1 }}</div>
           <div class="song-info">
@@ -14,6 +14,9 @@
             <div class="popularity" :style="{ width: `${song.popularity * 10}%` }"></div>
           </div>
         </div>
+      </div>
+      <div class="rankings" v-if="songList.length < 1">
+        <span>暂无热榜歌曲</span>
       </div>
     </div>
   </div>
