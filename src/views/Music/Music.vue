@@ -9,9 +9,6 @@
   <a-flex wrap="wrap" gap="large" style="margin-top: 20px; margin-left: 70px">
     <music-card :music-list="musicList"/>
   </a-flex>
-  <audio controls>
-    <source src="../../musics/Angel.mp3" />
-  </audio>
 </template>
 
 <script setup lang="js">
