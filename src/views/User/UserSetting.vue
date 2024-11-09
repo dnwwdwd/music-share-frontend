@@ -25,6 +25,12 @@
           </div>
           <div class="input-div">
           <span class="label-text">
+            头像：
+          </span>
+            <a-input style="width: 300px;" class="input" v-model:value="user.avatarUrl"/>
+          </div>
+          <div class="input-div">
+          <span class="label-text">
             手机号：
           </span>
             <a-input style="width: 300px;" class="input" v-model:value="user.phone"/>

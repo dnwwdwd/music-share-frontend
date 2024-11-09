@@ -3,7 +3,7 @@
     <div class="singer-info" style="display: flex; margin-top: 24px; margin-left: 24px;">
       <div style="display: flex; margin-top: 24px; margin-left: 24px;">
         <div>
-          <img :src="singerVO.imgUrl" width="220" height="220" style="border-radius: 50%"/>
+          <img :src="singerVO.imgUrl" width="220" height="220" style="border-radius: 50%; margin-bottom: 3px"/>
         </div>
         <div style="display: flex; flex-direction: column; justify-content: center; margin-left: 20px">
           <span style="font-size: 30px">{{ singerVO.name }}</span>
@@ -26,7 +26,7 @@
       </div>
     </div>
     <div class="list-container" style="margin-top: 20px">
-      <h2>热门歌曲</h2>
+      <h2>热门音乐</h2>
       <a-list
           class="demo-loadmore-list"
           :loading="false"
@@ -114,7 +114,7 @@ const playNext = () => {
     audioPlayer.value.load();
     audioPlayer.value.play();
   } else {
-    isPlaying.value = false; // 所有歌曲播放完毕，更新状态
+    isPlaying.value = false; // 所有音乐播放完毕，更新状态
   }
 };
 

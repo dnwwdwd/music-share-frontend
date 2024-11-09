@@ -36,6 +36,24 @@
             <span>个人设置</span>
           </router-link>
         </a-menu-item>
+        <a-menu-item key="6" v-if="isAdmin">
+          <router-link to="/admin/musicManagement">
+            <CustomerServiceOutlined/>
+            <span>音乐管理</span>
+          </router-link>
+        </a-menu-item>
+        <a-menu-item key="7" v-if="isAdmin">
+          <router-link to="/admin/singerManagement">
+            <MehOutlined/>
+            <span>歌手管理</span>
+          </router-link>
+        </a-menu-item>
+        <a-menu-item key="8" v-if="isAdmin">
+          <router-link to="/admin/userManagement">
+            <UserOutlined />
+            <span>用户管理</span>
+          </router-link>
+        </a-menu-item>
       </a-menu>
     </a-layout-sider>
     <a-layout>
@@ -43,7 +61,27 @@
         <div style="display: flex; justify-content: space-between; align-items: center">
           <span style="font-size: 20px; margin-left: 20px; color: #1E90FF">{{ title }}</span>
           <div style="margin-right: 30px">
-            <a-button style="margin-right: 20px; color: #31C27C">上传音乐</a-button>
+            <a-button style="margin-right: 20px; color: #31C27C" @click="showModal">上传音乐</a-button>
+            <a-modal v-model:open="open" title="上传音乐" @ok="handleOk" cancelText="取消" okText="确认上传">
+              音乐名称：
+              <a-input v-model:value="formModal.name" class="a-input"/>
+              音乐图片：
+              <a-input v-model:value="formModal.imgUrl" class="a-input"/>
+              音乐类型：
+              <a-input v-model:value="formModal.type" class="a-input"/>
+              音乐描述：
+              <a-input v-model:value="formModal.description" class="a-input"/>
+              音乐链接：
+              <a-input v-model:value="formModal.url" class="a-input"/>
+              音乐时长：
+              <a-input v-model:value="formModal.duration" class="a-input"/>
+              歌手名称：
+              <a-input v-model:value="formModal.singerName" class="a-input"/>
+              歌手图片：
+              <a-input v-model:value="formModal.singerImgUrl" class="a-input"/>
+              歌手描述：
+              <a-input v-model:value="formModal.singerDesc" class="a-input"/>
+            </a-modal>
             <a-dropdown>
               <a-avatar
                   shape="circle"
@@ -51,9 +89,6 @@
               />
               <template #overlay>
                 <a-menu>
-                  <a-menu-item>
-                    <router-link to="/">前台页面</router-link>
-                  </a-menu-item>
                   <a-menu-item>
                     <router-link to="/user/login" @click="userLogout">退出登录</router-link>
                   </a-menu-item>
@@ -73,7 +108,11 @@
   </a-layout>
 </template>
 <script lang="js" setup>
-import {CommentOutlined, DesktopOutlined, FormOutlined, UngroupOutlined,} from '@ant-design/icons-vue';
+import {
+  CommentOutlined, DesktopOutlined, FormOutlined,
+  UngroupOutlined, CustomerServiceOutlined,
+  MehOutlined,UserOutlined
+} from '@ant-design/icons-vue';
 import {onMounted, ref, watchEffect} from 'vue';
 import {useRoute, useRouter} from "vue-router";
 import {getCurrentUser} from "../services/user.js";
@@ -90,6 +129,8 @@ const route = useRoute();
 const router = useRouter();
 
 const user = ref({});
+
+const isAdmin = ref(false);
 
 watchEffect(() => {
   // 根据当前路由的 path 来设置选中的菜单项
@@ -109,6 +150,12 @@ watchEffect(() => {
     case '/setting':
       selectedKeys.value = ['5'];
       break;
+    case '/admin/musicManagement':
+      selectedKeys.value = ['6'];
+    case '/admin/singerManagement':
+      selectedKeys.value = ['7'];
+    case '/admin/userManagement':
+      selectedKeys.value = ['8'];
     default:
       // 如果没有匹配到任何菜单项，清空选中项
       selectedKeys.value = [];
@@ -129,6 +176,7 @@ onMounted(async () => {
     const res = await getCurrentUser();
     if (res) {
       user.value = res;
+      isAdmin.value = user.value.role === 'admin';
     }
   }
 });
@@ -149,6 +197,31 @@ const userLogout = async () => {
     message.error('登出失败: ' + res.data.message);
   }
 };
+
+const open = ref(false);
+
+const showModal = () => {
+  open.value = true;
+}
+
+const formModal = ref({
+  name: '',
+  imgUrl: '',
+  type: '',
+  description: '',
+  url: '',
+  duration: '',
+  singerName: '',
+  singerImgUrl: '',
+  singerDesc: '',
+})
+
+const handleOk = async () => {
+  const res = await myAxios.post('/music/upload', formModal.value);
+  if (res.code == 0) {
+    window.location.reload();
+  }
+}
 
 
 </script>

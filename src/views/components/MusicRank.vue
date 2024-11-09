@@ -1,7 +1,7 @@
 <template>
   <div style="display: flex; justify-content: center; align-items: center; margin-top: 10px">
     <div class="rankings-container">
-      <h2>歌曲排行榜</h2>
+      <h2>音乐排行榜</h2>
       <div class="rankings" v-if="songList.length > 0">
         <div class="ranking-item" v-for="(song, index) in songList" :key="index">
           <div class="rank">{{ index + 1 }}</div>
@@ -16,7 +16,7 @@
         </div>
       </div>
       <div class="rankings" v-if="songList.length < 1">
-        <span>暂无热榜歌曲</span>
+        <span>暂无热榜音乐</span>
       </div>
     </div>
   </div>

@@ -2,7 +2,7 @@
   <div style="display: flex; justify-content: center; align-items: center; margin-top: 12px">
     <a-input-search
         v-model:value="searchText"
-        placeholder="请输入歌名/歌手名搜索车辆"
+        placeholder="请输入歌名/歌手名进行搜索"
         style="width: 400px; margin-top: 10px"
         @search="onSearch"/>
   </div>
@@ -29,7 +29,14 @@ onMounted(async () => {
 });
 
 const onSearch = async () => {
-
+  const res = await myAxios.get('/music', {
+    params: {
+      searchText: searchText.value,
+    }
+  });
+  if (res.code === 0) {
+    musicList.value = res.data;
+  }
 };
 
 </script>
