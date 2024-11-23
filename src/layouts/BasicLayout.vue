@@ -59,7 +59,7 @@
     <a-layout>
       <a-layout-header style="background: #fff; padding: 0; height: 60px">
         <div style="display: flex; justify-content: space-between; align-items: center">
-          <span style="font-size: 20px; margin-left: 20px; color: #1E90FF">{{ title }}</span>
+          <span style="font-size: 20px; margin-left: 20px; color: #1BD3A5">{{ title }}</span>
           <div style="margin-right: 30px">
             <a-button style="margin-right: 20px; color: #31C27C" @click="showModal">上传音乐</a-button>
             <a-modal v-model:open="open" title="上传音乐" @ok="handleOk" cancelText="取消" okText="确认上传">
@@ -177,6 +177,9 @@ onMounted(async () => {
     if (res) {
       user.value = res;
       isAdmin.value = user.value.role === 'admin';
+    }
+    if (res.code === 40100) {
+      router.push('/user/login');
     }
   }
 });
