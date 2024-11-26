@@ -3,7 +3,7 @@
     <music-rank :song-list="songs"/>
   </div>
 
-  <a-flex wrap="wrap" gap="large" style="margin-top: 20px; margin-left: 70px">
+  <a-flex wrap="wrap" gap="large" style="margin-top: 20px; margin-left: 180px">
     <music-card :music-list="musicList"/>
   </a-flex>
 </template>

@@ -7,7 +7,7 @@
   </a-modal>
   <a-table :columns="columns" :data-source="dataSource" bordered>
     <template #bodyCell="{ column, text, record }">
-      <template v-if="[ 'imgUrl', 'name', 'description'].includes(column.dataIndex)">
+      <template v-if="[ 'imgUrl', 'name', 'description', 'songCount'].includes(column.dataIndex)">
         <div>
           <a-input
               v-if="editableData[record.key]"
@@ -67,6 +67,11 @@ const columns = [
   {
     title: '图片',
     dataIndex: 'imgUrl',
+    width: '10%',
+  },
+  {
+    title: '歌曲数量',
+    dataIndex: 'songCount',
     width: '10%',
   },
   {

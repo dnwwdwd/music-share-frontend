@@ -15,7 +15,7 @@ const routes = [
     {path: '/',title: '音乐推荐', component: Music, meta: {layout: 'basic'}},
     {path: '/hot/music', title: '热门音乐',component: HotMusic, meta: {layout: 'basic'}},
     {path: '/singer/recommend', title: '歌手推荐',component: Singer, meta: {layout: 'basic'}},
-    {path: '/song/star', title: '收藏音乐',component: MusicStar, meta: {layout: 'basic'}},
+    {path: '/song/star', title: '音乐收藏',component: MusicStar, meta: {layout: 'basic'}},
     {path: '/musicDetail/:id', title: '音乐详情',component: MusicDetail, meta: {layout: 'basic'}},
     {path: '/singerDetail/:id', title: '歌手详情',component: SingerDetail, meta: {layout: 'basic'}},
     {path: '/setting',title: '用户设置', component: UserSetting, meta: {layout: 'basic'}},

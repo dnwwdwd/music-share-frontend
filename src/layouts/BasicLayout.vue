@@ -20,14 +20,14 @@
         </a-menu-item>
         <a-menu-item key="3">
           <router-link to="/singer/recommend">
-            <desktop-outlined/>
+            <AudioOutlined />
             <span>歌手推荐</span>
           </router-link>
         </a-menu-item>
         <a-menu-item key="4">
           <router-link to="/song/star">
-            <desktop-outlined/>
-            <span>收藏音乐</span>
+            <StarOutlined />
+            <span>音乐收藏</span>
           </router-link>
         </a-menu-item>
         <a-menu-item key="5">
@@ -109,9 +109,14 @@
 </template>
 <script lang="js" setup>
 import {
-  CommentOutlined, DesktopOutlined, FormOutlined,
-  UngroupOutlined, CustomerServiceOutlined,
-  MehOutlined,UserOutlined
+  AudioOutlined,
+  CommentOutlined,
+  CustomerServiceOutlined,
+  FormOutlined,
+  MehOutlined,
+  StarOutlined,
+  UngroupOutlined,
+  UserOutlined,
 } from '@ant-design/icons-vue';
 import {onMounted, ref, watchEffect} from 'vue';
 import {useRoute, useRouter} from "vue-router";

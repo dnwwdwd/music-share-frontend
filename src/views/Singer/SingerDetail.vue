@@ -10,13 +10,14 @@
           <span style="margin-top: 10px; font-size: 18px">简介： {{ singerVO.description }}</span>
           <span style="margin-top: 10px; font-size: 18px">单曲： {{ singerVO.songCount }}</span>
           <a-button
+              v-if="singerVO.music_list && singerVO.music_list.length > 0"
               type="default"
               style="background: #31C27C; width: 150px; margin-top: 10px"
               @click="togglePlay"
           >
             {{ isPlaying ? '暂停' : '开始播放' }}
           </a-button>
-          <div v-if="music.url" style="display: flex; align-items: center; margin-top: 6px">
+          <div v-if="singerVO.music_list.length > 0 && music.url" style="display: flex; align-items: center; margin-top: 6px">
             <span style="color: #A7A7A8; font-size: 20px">{{ music.name }}：</span>
             <audio controls ref="audioPlayer" @ended="playNext">
               <source :src="music.url"/>
@@ -25,7 +26,7 @@
         </div>
       </div>
     </div>
-    <div class="list-container" style="margin-top: 20px">
+    <div v-if="singerVO.music_list && singerVO.music_list.length > 0" class="list-container" style="margin-top: 20px">
       <h2>热门音乐</h2>
       <a-list
           class="demo-loadmore-list"
@@ -43,7 +44,7 @@
             <a-skeleton avatar :title="false" :loading="false" active>
               <a-list-item-meta :description="item.name">
                 <template #title>
-                  <a href="https://www.antdv.com/">{{ item.name }}</a>
+                  <a @click="router.push(`/musicDetail/${item.id}`)">{{ item.name }}</a>
                 </template>
               </a-list-item-meta>
               <div>{{ item.duration }}</div>
@@ -53,6 +54,7 @@
       </a-list>
     </div>
   </div>
+  <a-empty v-if="!singerVO.music_list || singerVO.music_list.length < 1" description="该歌手还无任何音乐作品" style="margin-top: 50px"/>
 </template>
 
 <script setup lang="js">
@@ -60,13 +62,15 @@ import {onMounted, ref} from "vue";
 import {PlayCircleOutlined} from '@ant-design/icons-vue';
 import {message} from "ant-design-vue";
 import myAxios from "../../plugins/myAxios.js";
-import {useRoute} from "vue-router";
+import {useRoute, useRouter} from "vue-router";
 
 const audioPlayer = ref(null);
 const isPlaying = ref(false); // 播放状态
 const singerVO = ref({});
 
 const route = useRoute();
+
+const router = useRouter();
 
 const id = route.params.id;
 

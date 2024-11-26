@@ -6,12 +6,11 @@
         <div class="ranking-item" v-for="(song, index) in songList" :key="index">
           <div class="rank">{{ index + 1 }}</div>
           <div class="song-info">
-            <span class="song-name" @click="router.push(`/musicDetail/${song.singer.id}`)">{{ song.songName }}</span>
-            <span class="artist"> - {{ song.singer.name }}</span>
+            <span class="artist" @click="router.push(`/musicDetail/${song.id}`)"> {{song.name}} - {{ song.singer.name }}</span>
             <span class="duration"> (时长: {{ song.duration }})</span>
           </div>
           <div class="popularity-bar">
-            <div class="popularity" :style="{ width: `${song.popularity * 10}%` }"></div>
+            <div class="popularity" :style="{ width: `${song.heat * 10}%` }"></div>
           </div>
         </div>
       </div>

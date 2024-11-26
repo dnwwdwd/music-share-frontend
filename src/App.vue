@@ -2,7 +2,6 @@
 import {computed} from 'vue';
 import {useRoute} from 'vue-router';
 import BasicLayout from './layouts/BasicLayout.vue';
-import AdminBasicLayout from './layouts/AdminBasicLayout.vue';
 
 // 获取当前路由
 const route = useRoute();

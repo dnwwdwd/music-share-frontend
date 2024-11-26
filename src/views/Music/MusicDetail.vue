@@ -24,7 +24,7 @@
             <template #content>
               <span>{{musicVO.url}}</span>
             </template>
-            <ShareAltOutlined style="margin-top: 20px" />
+            <ShareAltOutlined />
           </a-popover>
         </div>
       </div>
@@ -46,8 +46,6 @@ import {ShareAltOutlined} from "@ant-design/icons-vue";
 
 const route = useRoute();
 const router = useRouter();
-
-const text = ref('https://www.antdv.com/');
 
 const id = route.params.id;
 
